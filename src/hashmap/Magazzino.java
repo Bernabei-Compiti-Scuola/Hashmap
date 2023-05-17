@@ -65,5 +65,32 @@ public class Magazzino
         }
         return finale;
     }
-
+    // ritorna un hashmap che lega ad ogni genere presente (usato come chiave) il numero di libri presenti in magazzino
+    public  HashMap<String, Integer> generi()
+    {
+        HashMap<String, Integer>finale=new HashMap<>();
+        ArrayList<String>scaffali=(ArrayList<String>) libreria.keySet();
+        for(int i=0;i<scaffali.size();i++)
+        {
+            HashMap<Integer,Libro>scaf=libreria.get(scaffali.get(i));
+            ArrayList<Libro>Libri=(ArrayList<Libro>) scaf.values();
+            for(int j=0;j<Libri.size();j++)
+            {
+                if(finale.containsKey(Libri.get(j).getGenere())==false)
+                    finale.put(Libri.get(j).getGenere(), 1);
+                else
+                    finale.put(Libri.get(j).getGenere(), finale.get(Libri.get(j).getGenere()+1));
+            }
+        }
+        return finale;  
+    }
+//    public Libro piùIsolato()
+//    {
+//        for(int i=0;i<libreria.size();i++)
+//        {
+//            HashMap <Integer,Libro> scaffale
+//            
+//            for(int j=0;j<)
+//        }
+//    }
 }

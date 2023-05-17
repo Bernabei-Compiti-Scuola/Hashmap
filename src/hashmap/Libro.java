@@ -12,10 +12,12 @@ public class Libro
 {
     private String titolo;
     private int prezzo;
+    private String genere;
 
-    public Libro(String titolo, int prezzo) {
+    public Libro(String titolo, int prezzo, String genere) {
         this.titolo = titolo;
         this.prezzo = prezzo;
+        this.genere=genere;
     }
 
     public String getTitolo() {
@@ -24,6 +26,10 @@ public class Libro
 
     public int getPrezzo() {
         return prezzo;
+    }
+
+    public String getGenere() {
+        return genere;
     }
 
     public void setTitolo(String titolo) {
