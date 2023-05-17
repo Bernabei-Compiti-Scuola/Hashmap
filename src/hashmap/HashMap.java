@@ -15,6 +15,14 @@ public class HashMap {
      */
     public static void main(String[] args) 
     {
+        Magazzino m=new Magazzino();
+        Libro a=new Libro ("signore",45);
+        Libro b=new Libro ("anello",45);
+        Libro c=new Libro ("pippo",48);
+        m.aggiungiLibro("scaff1", 1, a);
+        m.aggiungiLibro("scaff1", 2, b);
+        m.aggiungiLibro("scaff1", 4, c);
+        System.out.println(m.getTitoli_prezzo());
         
     }
     
