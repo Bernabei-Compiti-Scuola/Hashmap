@@ -11,86 +11,120 @@ import java.util.HashMap;
  */
 public class Magazzino 
 {
-    HashMap<String, HashMap<Integer, Libro>> libreria=new HashMap<String,HashMap<Integer,Libro>>();
+    HashMap<String, HashMap<Integer, Libro>> libreria = new HashMap<String, HashMap<Integer, Libro>>();
 
+    // Metodo per aggiungere un libro al magazzino in una specifica posizione di uno scaffale
     public boolean aggiungiLibro(String scaffale, Integer posizione, Libro libro)
     {
-        
-        HashMap<Integer,Libro>scaf=libreria.get(scaffale);
-        if(scaf.containsKey(posizione)==true)
+        HashMap<Integer, Libro> scaf = libreria.get(scaffale);
+        if (scaf.containsKey(posizione) == true) 
         {
             scaf.put(posizione, libro);
             System.out.println("\nlibro aggiunto");
             return true;
-        }
-            
-        else
+        } 
+        else 
         {
             System.out.println("\nlibro non aggiunto");
             return false;
         }
     }
-    public Libro getLibro(String scaffale, Integer posizione)
+
+    // Metodo per ottenere un libro dal magazzino in una specifica posizione di uno scaffale
+    public Libro getLibro(String scaffale, Integer posizione) 
     {
-        HashMap<Integer,Libro>scaf=libreria.get(scaffale);
-        if(scaf.containsKey(posizione))
+        HashMap<Integer, Libro> scaf = libreria.get(scaffale);
+        if (scaf.containsKey(posizione)) 
         {
             return scaf.get(posizione);
-        }
-        else
+        } 
+        else 
         {
             System.out.println("\nlibro non presente");
             return null;
         }
     }
-//    HashMap che ha come chiave un prezzo e come valore un elenco (ArrayList) dei
-//    titoli dei libri che hanno quel prezzo
-    
-    public HashMap<Integer,ArrayList<String>> getTitoli_prezzo()
+
+    // Metodo per ottenere un HashMap che associa ad ogni prezzo una lista di titoli dei libri con quel prezzo
+    public HashMap<Integer, ArrayList<String>> getTitoli_prezzo() 
     {
-        HashMap<Integer,ArrayList<String>>finale=new HashMap<>();
+        HashMap<Integer, ArrayList<String>> finale = new HashMap<>();
+
+        ArrayList<String> scaffali = (ArrayList<String>) libreria.keySet();
         
-        ArrayList<String>scaffali=(ArrayList<String>) libreria.keySet();
-        for(int i=0;i<scaffali.size();i++)
+        for (int i = 0; i < scaffali.size(); i++) 
         {
-            ArrayList<String>titoli=new ArrayList();
-            HashMap<Integer,Libro>scaf=libreria.get(scaffali.get(i));
-            ArrayList<Libro>Libri=(ArrayList<Libro>) scaf.values();
-            for(int j=0;j<Libri.size();j++)
+            ArrayList<String> titoli = new ArrayList();
+            HashMap<Integer, Libro> scaf = libreria.get(scaffali.get(i));
+            ArrayList<Libro> Libri = (ArrayList<Libro>) scaf.values();
+            for (int j = 0; j < Libri.size(); j++) 
             {
                 titoli.add(Libri.get(j).getTitolo());
                 finale.put(Libri.get(j).getPrezzo(), titoli);
             }
-            
         }
         return finale;
     }
-    // ritorna un hashmap che lega ad ogni genere presente (usato come chiave) il numero di libri presenti in magazzino
-    public  HashMap<String, Integer> generi()
+
+    // Metodo per ottenere un HashMap che associa ad ogni genere il numero di libri presenti in magazzino
+    public HashMap<String, Integer> generi() 
     {
-        HashMap<String, Integer>finale=new HashMap<>();
-        ArrayList<String>scaffali=(ArrayList<String>) libreria.keySet();
-        for(int i=0;i<scaffali.size();i++)
+        HashMap<String, Integer> finale = new HashMap<>();
+        // Ottiene tutti i generi dei libri presenti in magazzino
+        ArrayList<String> scaffali = (ArrayList<String>) libreria.keySet();
+        // Per ogni scaffale, ottiene tutti i libri e aggiunge il genere al conteggio
+        for (int i = 0; i < scaffali.size(); i++) 
         {
-            HashMap<Integer,Libro>scaf=libreria.get(scaffali.get(i));
-            ArrayList<Libro>Libri=(ArrayList<Libro>) scaf.values();
-            for(int j=0;j<Libri.size();j++)
+            HashMap<Integer, Libro> scaf = libreria.get(scaffali.get(i));
+            ArrayList<Libro> Libri = (ArrayList<Libro>) scaf.values();
+            // Per ogni libro, aggiunge il genere al conteggio
+            for (int j = 0; j < Libri.size(); j++) 
             {
-                if(finale.containsKey(Libri.get(j).getGenere())==false)
+                if (finale.containsKey(Libri.get(j).getGenere()) == false)
                     finale.put(Libri.get(j).getGenere(), 1);
                 else
-                    finale.put(Libri.get(j).getGenere(), finale.get(Libri.get(j).getGenere()+1));
+                    finale.put(Libri.get(j).getGenere(), finale.get(Libri.get(j).getGenere() + 1));
             }
         }
-        return finale;  
+        return finale;
     }
-//    public Libro piùIsolato()
-//    {
-//        for(int i=0;i<libreria.size();i++)
-//        {
-//            HashMap <Integer,Libro> scaffale
-//            
-//            for(int j=0;j<)
-//        }
-//    }
+    
+    public Libro piuIsolato()
+    {
+        String scaffaleMenoLibri = null;
+        // Inizializza il numero minimo di libri a il valore massimo di un intero
+        int minLibri = Integer.MAX_VALUE;
+
+        // Trova lo scaffale con meno libri
+        for (int i=0; i<libreria.size(); i++)
+        {
+            HashMap<Integer, Libro> scaf = libreria.get(i);
+            if (scaf.size() < minLibri) 
+            {
+                minLibri = scaf.size();
+                scaffaleMenoLibri = (String) libreria.keySet().toArray()[i];
+            }
+        }
+
+        // Trova il libro meno costoso nello scaffale con meno libri
+        if (scaffaleMenoLibri != null) 
+        {
+            HashMap<Integer, Libro> scaf = libreria.get(scaffaleMenoLibri);
+            Libro libroMenoCostoso = null;
+            int minPrezzo = Integer.MAX_VALUE;
+
+            for (int i=0; i<scaf.size(); i++)
+            {
+                Libro libro = scaf.get(i);
+                int prezzo = libro.getPrezzo();
+                if (prezzo < minPrezzo) 
+                {
+                    minPrezzo = prezzo;
+                    libroMenoCostoso = libro;
+                }
+            }
+            return libroMenoCostoso;
+        }
+        return null;
+    }
 }
